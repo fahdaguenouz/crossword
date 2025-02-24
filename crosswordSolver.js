@@ -1,5 +1,5 @@
 function CheckWords(word){
-    const regex=/[^a-z]/gi
+    const regex=/[^a-z]/g
     
     if(!Array.isArray(word)||word.length==0){
         return true 
@@ -44,7 +44,7 @@ function CheckWordInPuzzel(puzzel,words){
     // console.log(wordlen);
     let puzz = puzzel.split("\n").join("")
     puzz=puzz.split(".").join("")
-    let c=0
+    let c=0   
     for(let i=0;i<puzz.length;i++){
         c+=parseInt(puzz[i])+1
     }
@@ -55,13 +55,43 @@ function CheckWordInPuzzel(puzzel,words){
 
   }
 
+  function CheckPalces(puzzel,words){
+    let matrix=[]
+    let puzz=[]
+    let pu = puzzel.split("\n")
+    words.map((e)=>{
+       matrix.push(e.split())
+
+    })
+    pu.map((e)=>{
+        puzz.push([...e])
+    })
+    console.log("Puzzle Matrix:", matrix);
+    console.log("Words List:", puzz);
+    const coordinates = [];
+    console.log(puzz[0][0]);   
+    for (let r = 0; r < puzz.length; r++) {
+        for (let c = 0; c < puzz[r].length; c++) {
+            coordinates.push({
+                character: puzz[r][c],
+                position: [r, c]
+            });
+        }
+    }
+    console.log(coordinates);
+    
+     
+
+
+  }
+
 
 function crosswordSolver(puzzleMap,words){
     let error =false
      if(CheckWords(words)||CheckPuzzel(puzzleMap)|| CheckWordInPuzzel(puzzleMap,words)){
         return console.log("Error");
      }
-    
+    let position= CheckPalces(puzzleMap,words)
     
         return console.log("succ");
     
@@ -69,39 +99,39 @@ function crosswordSolver(puzzleMap,words){
 
 // const puzzle=14
 
-// const puzzle = `2001
-// 0..0
-// 1000
-// 0..0`
-// const words = ["casa", 'alan', 'ciao',"anta"]
+const puzzle = `2001
+0..0
+1000
+0..0`
+const words = ["casa", 'alan', 'ciao',"anta"]
 // const puzzle = '2001\n0..0\n2000\n0..0'
-const puzzle = `...1...........
-..1000001000...
-...0....0......
-.1......0...1..
-.0....100000000
-100000..0...0..
-.0.....1001000.
-.0.1....0.0....
-.10000000.0....
-.0.0......0....
-.0.0.....100...
-...0......0....
-..........0....`
-const words = [
-  'sun',
-  'sunglasses',
-  'suncream',
-  'swimming',
-  'bikini',
-  'beach',
-  'icecream',
-  'tan',
-  'deckchair',
-  'sand',
-  'seaside',
-  'sandals',
-].reverse()
+// const puzzle = `...1...........
+// ..1000001000...
+// ...0....0......
+// .1......0...1..
+// .0....100000000
+// 100000..0...0..
+// .0.....1001000.
+// .0.1....0.0....
+// .10000000.0....
+// .0.0......0....
+// .0.0.....100...
+// ...0......0....
+// ..........0....`
+// const words = [
+//   'sun',
+//   'sunglasses',
+//   'suncream',
+//   'swimming',
+//   'bikini',
+//   'beach',
+//   'icecream',
+//   'tan',
+//   'deckchair',
+//   'sand',
+//   'seaside',
+//   'sandals',
+// ].reverse()
 //const words=["","hhh"]
 crosswordSolver(puzzle, words)
 
