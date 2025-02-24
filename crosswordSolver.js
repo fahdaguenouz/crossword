@@ -66,19 +66,21 @@ function CheckWordInPuzzel(puzzel,words){
     pu.map((e)=>{
         puzz.push([...e])
     })
-    console.log("Puzzle Matrix:", matrix);
-    console.log("Words List:", puzz);
-    const coordinates = [];
-    console.log(puzz[0][0]);   
-    for (let r = 0; r < puzz.length; r++) {
-        for (let c = 0; c < puzz[r].length; c++) {
-            coordinates.push({
-                character: puzz[r][c],
-                position: [r, c]
-            });
-        }
-    }
-    console.log(coordinates);
+    // console.log("Puzzle Matrix:", matrix);
+    // console.log("Words List:", puzz);
+    // console.log(puzz[0][0]);   
+    // const coordinates = [];
+    // for (let r = 0; r < puzz.length; r++) {
+    //     for (let c = 0; c < puzz[r].length; c++) {
+    //         coordinates.push({
+    //             character: puzz[r][c],
+    //             position: [r, c]
+    //         });
+    //     }
+    // }
+    console.log(puzz);
+    console.log(puzz.length);
+    
     
      
 
@@ -92,9 +94,7 @@ function crosswordSolver(puzzleMap,words){
         return console.log("Error");
      }
     let position= CheckPalces(puzzleMap,words)
-    
         return console.log("succ");
-    
 }
 
 // const puzzle=14
