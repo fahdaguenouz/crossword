@@ -45,20 +45,16 @@ function CheckPuzzel(puzzl){
 
 function CheckWordInPuzzel(puzzel,words){
     let wordArray = Array.isArray(words) ? words : Array.from(words);
-
+    const reg = /[\n|\.]/g
     let wordlen=wordArray.join("").length
     // console.log(wordlen);
-    let puzz = puzzel.split("\n").join("")
-    puzz=puzz.split(".").join("")
+    let puzz = puzzel.replace(reg, reg => reg = "");
     let c=0   
-    for(let i=0;i<puzz.length;i++){
-        c+=parseInt(puzz[i])+1
+    for (item of puzz) {
+        c += parseInt(item) + 1;
     }
-    if(c!=wordlen){
-        return true 
-    }
-   return false
-
+   // console.log(c);
+    return c !== wordlen;
   }
 
 //   function CheckPalces(puzzel,words){
@@ -81,7 +77,7 @@ function cloneMatrix(matrix) {
     return matrix.map(row => [...row]);
 }
 
-// Check if the solution is complete (no more numbers)
+// check if theres no number lft in matrix 
 function isComplete(matrix) {
     for (let r = 0; r < matrix.length; r++) {
         for (let c = 0; c < matrix[r].length; c++) {
@@ -102,7 +98,6 @@ function placeHorizontal(matrix, word, y, x) {
     // console.log(word);
     // console.log("x",x);
     // console.log("y",y);
-    
 
     // chek if the word fit in the path of the x ->
     if (x + word.length > matrix[y].length) {
@@ -122,6 +117,11 @@ function placeHorizontal(matrix, word, y, x) {
         if (currentChar === '.') {
             return null; // Can't place on empty cells
         } else if (currentChar !== '0' && currentChar !== '1' && currentChar !== '2' && currentChar !== word[i]) {
+            // console.log("current ",currentChar);
+            // console.log("word",word[i]);
+            // console.log(word);
+            // console.log(matrix[y]);
+            // console.log(newMatrix);
             return null; // Can't place if conflicting letter
         }
         newMatrix[y][x + i] = word[i];
@@ -233,11 +233,9 @@ function CheckPalces(puzzel, words) {
     
     // Reset solutions array
     solutions = [];
-    //console.log(cloneMatrix(puzz));
     
     // Start the recursive solving
     solveCrossword(puzz, cloneMatrix(puzz), words, 0);
-    
     // Check if there's exactly one solution
     if (solutions.length !== 1) {
         return null; 
@@ -256,45 +254,14 @@ function crosswordSolver(puzzleMap, words) {
     if (solution === null) {
         console.log("Error");
     } else {
-        // Print the solution
+
         console.log(solution.map(row => row.join('')).join('\n'));
     }
 }
 
 // const puzzle=14
-
-// const puzzle = `2001
-// 0..0
-// 1000
-// 0..0`
-// const words = ["casa", 'alan', 'ciao',"anta"]
-const puzzle = `...1...........
-..1000001000...
-...0....0......
-.1......0...1..
-.0....100000000
-100000..0...0..
-.0.....1001000.
-.0.1....0.0....
-.10000000.0....
-.0.0......0....
-.0.0.....100...
-...0......0....
-..........0....`
-const words = [
-  'sun',
-  'sunglasses',
-  'suncream',
-  'swimming',
-  'bikini',
-  'beach',
-  'icecream',
-  'tan',
-  'deckchair',
-  'sand',
-  'seaside',
-  'sandals',
-]
+const puzzle = '2001\n0..0\n1000\n0..0'
+const words = ['casa', 'alan', 'ciao', 'anta']
 crosswordSolver(puzzle, words)
 
 
