@@ -3,7 +3,7 @@ function CheckWords(word){
   //  console.log((Array.isArray(word) || words instanceof Set));
     
     if(!(Array.isArray(word) || word instanceof Set)||word.length==0|| word.size === 0){
-        console.log(word);
+      //  console.log(word);
         return true 
     }
     let wordArray = Array.isArray(word) ? word : Array.from(word);
@@ -94,66 +94,71 @@ function isComplete(matrix) {
 }
 
 // Try to place a word horizontally
-function placeHorizontal(matrix, word, r, c) {
+function placeHorizontal(matrix, word, y, x) {
     const newMatrix = cloneMatrix(matrix);
+
+    // console.log("place horisental");
+    // console.log(matrix);
+    // console.log(word);
+    // console.log("x",x);
+    // console.log("y",y);
     
-    // Check if word fits horizontally
-    if (c + word.length > matrix[r].length) {
+
+    // chek if the word fit in the path of the x ->
+    if (x + word.length > matrix[y].length) {
         return null;
     }
     
-    // Check if there's space right after the word
-    if (c + word.length < matrix[r].length && matrix[r][c + word.length] !== '.') {
-        return null;
-    }
-    
-    // Check if there's space right before the word (for marker 1)
-    if (matrix[r][c] === '1' && c > 0 && matrix[r][c-1] !== '.') {
+    // Check if there's space right after the word 
+    // means the word short for the place 
+    if (x + word.length < matrix[y].length && matrix[y][x + word.length] !== '.') {
+   
         return null;
     }
     
     // Try to place the word
     for (let i = 0; i < word.length; i++) {
-        const currentChar = matrix[r][c + i];
+        const currentChar = matrix[y][x + i];
         if (currentChar === '.') {
             return null; // Can't place on empty cells
         } else if (currentChar !== '0' && currentChar !== '1' && currentChar !== '2' && currentChar !== word[i]) {
             return null; // Can't place if conflicting letter
         }
-        newMatrix[r][c + i] = word[i];
+        newMatrix[y][x + i] = word[i];
     }
     
     return newMatrix;
 }
 
 // Try to place a word vertically
-function placeVertical(matrix, word, r, c) {
+function placeVertical(matrix, word, y, x) {
     const newMatrix = cloneMatrix(matrix);
-    
+    // console.log("place vertical");
+
+    // console.log(matrix);
+    // console.log(word);
+    // console.log("x",x);
+    // console.log("y",y);
     // Check if word fits vertically
-    if (r + word.length > matrix.length) {
+    if (y + word.length > matrix.length) {
         return null;
     }
     
     // Check if there's space right after the word
-    if (r + word.length < matrix.length && matrix[r + word.length][c] !== '.') {
+    if (y + word.length < matrix.length && matrix[y + word.length][x] !== '.') {
         return null;
     }
     
-    // Check if there's space right before the word (for marker 1)
-    if (matrix[r][c] === '1' && r > 0 && matrix[r-1][c] !== '.') {
-        return null;
-    }
     
     // Try to place the word
     for (let i = 0; i < word.length; i++) {
-        const currentChar = matrix[r + i][c];
+        const currentChar = matrix[y + i][x];
         if (currentChar === '.') {
             return null; // Can't place on empty cells
         } else if (currentChar !== '0' && currentChar !== '1' && currentChar !== '2' && currentChar !== word[i]) {
             return null; // Can't place if conflicting letter
         }
-        newMatrix[r + i][c] = word[i];
+        newMatrix[y + i][x] = word[i];
     }
     
     return newMatrix;
@@ -161,6 +166,11 @@ function placeVertical(matrix, word, r, c) {
 
 // Recursive solving function
 function solveCrossword(puzzle, current, words, index) {
+   // console.log(current);//log the complete important 
+    //console.log("s",solutions);
+    
+    
+    
     // If we've placed all words, check if the solution is complete
     if (index === words.length) {
         if (isComplete(current)) {
@@ -173,21 +183,21 @@ function solveCrossword(puzzle, current, words, index) {
     const word = words[index];
     
     // Try placing at every possible position
-    for (let r = 0; r < puzzle.length; r++) {
-        for (let c = 0; c < puzzle[r].length; c++) {
+    for (let y = 0; y < puzzle.length; y++) {
+        for (let x = 0; x < puzzle[y].length; x++) {
             // Only try positions marked with 1 or 2
-            if (puzzle[r][c] !== '1' && puzzle[r][c] !== '2') {
+            if (puzzle[y][x] !== '1' && puzzle[y][x] !== '2') {
                 continue;
             }
             
             // Try horizontal placement
-            const horizontal = placeHorizontal(current, word, r, c);
+            const horizontal = placeHorizontal(current, word, y, x);
             if (horizontal) {
                 solveCrossword(puzzle, horizontal, words, index + 1);
             }
             
             // Try vertical placement
-            const vertical = placeVertical(current, word, r, c);
+            const vertical = placeVertical(current, word, y, x);
             if (vertical) {
                 solveCrossword(puzzle, vertical, words, index + 1);
             }
@@ -223,6 +233,7 @@ function CheckPalces(puzzel, words) {
     
     // Reset solutions array
     solutions = [];
+    //console.log(cloneMatrix(puzz));
     
     // Start the recursive solving
     solveCrossword(puzz, cloneMatrix(puzz), words, 0);
@@ -252,42 +263,39 @@ function crosswordSolver(puzzleMap, words) {
 
 // const puzzle=14
 
-const puzzle = `2001
-0..0
-1000
-0..0`
-const words = ["casa", 'alan', 'ciao',"anta"]
-// const puzzle = '2001\n0..0\n2000\n0..0'
-// const puzzle = `...1...........
-// ..1000001000...
-// ...0....0......
-// .1......0...1..
-// .0....100000000
-// 100000..0...0..
-// .0.....1001000.
-// .0.1....0.0....
-// .10000000.0....
-// .0.0......0....
-// .0.0.....100...
-// ...0......0....
-// ..........0....`
-// const words = [
-//   'sun',
-//   'sunglasses',
-//   'suncream',
-//   'swimming',
-//   'bikini',
-//   'beach',
-//   'icecream',
-//   'tan',
-//   'deckchair',
-//   'sand',
-//   'seaside',
-//   'sandals',
-// ].reverse()
-//const words=["","hhh"]
-//crosswordSolver(puzzle, words)
-crosswordSolver(puzzle, new Set(words))
+// const puzzle = `2001
+// 0..0
+// 1000
+// 0..0`
+// const words = ["casa", 'alan', 'ciao',"anta"]
+const puzzle = `...1...........
+..1000001000...
+...0....0......
+.1......0...1..
+.0....100000000
+100000..0...0..
+.0.....1001000.
+.0.1....0.0....
+.10000000.0....
+.0.0......0....
+.0.0.....100...
+...0......0....
+..........0....`
+const words = [
+  'sun',
+  'sunglasses',
+  'suncream',
+  'swimming',
+  'bikini',
+  'beach',
+  'icecream',
+  'tan',
+  'deckchair',
+  'sand',
+  'seaside',
+  'sandals',
+]
+crosswordSolver(puzzle, words)
 
 
 /* output:
