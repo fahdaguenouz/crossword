@@ -93,11 +93,11 @@ function isComplete(matrix) {
 function placeHorizontal(matrix, word, y, x) {
     const newMatrix = cloneMatrix(matrix);
 
-    // console.log("place horisental");
-    // console.log(matrix);
-    // console.log(word);
-    // console.log("x",x);
-    // console.log("y",y);
+    console.log("place horisental");
+    console.log(matrix);
+    console.log(word);
+    console.log("x",x);
+    console.log("y",y);
 
     // chek if the word fit in the path of the x ->
     if (x + word.length > matrix[y].length) {
@@ -133,12 +133,12 @@ function placeHorizontal(matrix, word, y, x) {
 // Try to place a word vertically
 function placeVertical(matrix, word, y, x) {
     const newMatrix = cloneMatrix(matrix);
-    // console.log("place vertical");
+    console.log("place vertical");
 
-    // console.log(matrix);
-    // console.log(word);
-    // console.log("x",x);
-    // console.log("y",y);
+    console.log(matrix);
+    console.log(word);
+    console.log("x",x);
+    console.log("y",y);
     // Check if word fits vertically
     if (y + word.length > matrix.length) {
         return null;
@@ -270,3 +270,15 @@ crosswordSolver(puzzle, words)
 i..l
 anta
 */
+
+// function recursive(c){
+//     if(c>10){
+//         return ;
+//     }
+    
+    
+//     recursive(c+1)
+//     console.log(c);
+// }
+
+// recursive(0)
